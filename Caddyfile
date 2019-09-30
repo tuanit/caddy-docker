@@ -1,7 +1,76 @@
-0.0.0.0
+china.xorder.vn {
+  #root /
+  #redir / / 301
+  #rewrite /api .* /
+  proxy / sod-client-cms
+  
+  tls {
+    dns cloudflare
+  }
 
-browse
+  proxy /api/customer sodo-sod-customer:8081 {
+    without /api/customer
+    header_upstream Host {host}
+    header_upstream X-Real-IP {remote}
+    header_upstream X-Forwarded-For {remote}
+    header_upstream X-Forwarded-Port {server_port}
+    header_upstream X-Forwarded-Proto {scheme}
+  }
 
-log stdout
+  proxy /api/notification sodo-sod-notifications:8082 {
+    without /api/notification
+    websocket
+    header_upstream Host {host}
+    header_upstream X-Real-IP {remote}
+    header_upstream X-Forwarded-For {remote}
+    header_upstream X-Forwarded-Port {server_port}
+    header_upstream X-Forwarded-Proto {scheme}
+  }
+  
+  proxy /api/order sodo-sod-order:8083 {
+    without /api/order
+    header_upstream Host {host}
+    header_upstream X-Real-IP {remote}
+    header_upstream X-Forwarded-For {remote}
+    header_upstream X-Forwarded-Port {server_port}
+    header_upstream X-Forwarded-Proto {scheme}
+  }
+  
+  proxy /api/accounting sodo-sod-accounting:8084 {
+    without /api/accounting
+    header_upstream Host {host}
+    header_upstream X-Real-IP {remote}
+    header_upstream X-Forwarded-For {remote}
+    header_upstream X-Forwarded-Port {server_port}
+    header_upstream X-Forwarded-Proto {scheme}
+  }
+  
+  proxy /api/warehouse sodo-sod-warehouse:8085 {
+    without /api/warehouse
+    header_upstream Host {host}
+    header_upstream X-Real-IP {remote}
+    header_upstream X-Forwarded-For {remote}
+    header_upstream X-Forwarded-Port {server_port}
+    header_upstream X-Forwarded-Proto {scheme}
+  }
+  
+  proxy /api/employee sodo-sod-employee:8086 {
+    without /api/employee
+    header_upstream Host {host}
+    header_upstream X-Real-IP {remote}
+    header_upstream X-Forwarded-For {remote}
+    header_upstream X-Forwarded-Port {server_port}
+    header_upstream X-Forwarded-Proto {scheme}
+  }
+  
+  proxy /api/reporting sodo-sod-reporting:8087 {
+    without /api/reporting
+    header_upstream Host {host}
+    header_upstream X-Real-IP {remote}
+    header_upstream X-Forwarded-For {remote}
+    header_upstream X-Forwarded-Port {server_port}
+    header_upstream X-Forwarded-Proto {scheme}
+  }
 
-errors stdout
+  timeouts 5m
+}
